@@ -40,6 +40,7 @@ public class MainThread {
         try {
             serverSocketChannel.register(next.selector, SelectionKey.OP_ACCEPT);
             next.selector.wakeup();
+            System.out.println("nextSelector");
         } catch (ClosedChannelException e) {
             throw new RuntimeException(e);
         }

@@ -25,12 +25,18 @@ public class SelectorThread implements Runnable {
     public void run() {
         while (true) {
             try {
-
+                try {
+                    Thread.sleep(1000L);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                System.out.println(Thread.currentThread().getName() + " before selectKeys, selectCount = " + selector.keys().size());
                 int selectCount = selector.select();
+                System.out.println(Thread.currentThread().getName() + " after1 selectKeys, selectCount = " + selector.keys().size());
+
+                System.out.println(Thread.currentThread().getName() + " after2 selectKeys, selectCount = " + selector.keys().size());
                 if (selectCount > 0) {
-                    System.out.println(Thread.currentThread().getName() + " before selectKeys, selectCount = " + selectCount);
                     Set<SelectionKey> keys = selector.selectedKeys();
-                    System.out.println(Thread.currentThread().getName() + " after selectKeys, selectCount = " + selectCount);
                     Iterator<SelectionKey> keyIterator = keys.iterator();
                     while (keyIterator.hasNext()) {
                         SelectionKey key = keyIterator.next();
